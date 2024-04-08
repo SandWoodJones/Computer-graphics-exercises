@@ -7,9 +7,11 @@
 
 #include <glm/glm.hpp>
 
+#include "shaderClass.h"
+
 const int   gW_Width = 640;
 const int   gW_Height = 360;
-const char* gW_Title = "project_name";
+const char* gW_Title = "2 triangulos";
 
 int main(void) {
 	// init glfw
@@ -38,11 +40,43 @@ int main(void) {
 		return -1;
 	}
 
+	GLfloat vertices[] = {
+		-0.5f, -0.5f, 0.0f, // esquerda
+		 0.5f, -0.5f, 0.0f, // direita
+		 0.0f,  0.1f, 0.0f, // topo
+
+		 -0.5f, 0.1f, 0.0f, // esquerda
+		 0.5f,  0.1f, 0.0f, // direita
+		 0.0f,  0.5f, 0.0f, // esquerda
+	};
+
+	GLuint VBO, VAO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(0);
+
+	Shader defaultShader = Shader("default.vert", "default.frag");
+
+	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
+
 	while (!glfwWindowShouldClose(win)) {
 		glfwPollEvents();
 
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		defaultShader.Activate();
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
 		glfwSwapBuffers(win);
 	}
+
+	defaultShader.Delete();
 
 	return 0;
 }
