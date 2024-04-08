@@ -41,15 +41,26 @@ int main(void) {
 	}
 
 	GLfloat vert_pos[] = {
-		 0.0f,  0.5f, 0.0f, // topo
-		 0.5f, -0.5f, 0.0f, // direita
-		-0.5f, -0.5f, 0.0f, // esquerda
+		// triangulo 1
+		-0.5f,   0.75f, 0.0f, // topo
+		-0.25f, -0.25f, 0.0f, // direita
+		-0.75f, -0.25f, 0.0f, // esquerda
+
+		// triangulo 2
+		 0.5f,   0.75f, 0.0f,
+		 0.75f, -0.25f, 0.0f,
+		 0.25f, -0.25f, 0.0f,
 	};
 
 	GLfloat vert_col[] = {
+		// triangulo 2
 		1.0f, 0.0f, 0.0f, // topo
-		0.0f, 1.0f, 0.0f, // direita
-		0.0f, 0.0f, 1.0f, // esquerda
+		1.0f, 0.0f, 0.0f, // direita
+		1.0f, 0.0f, 0.0f, // esquerda
+
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
 	};
 
 	GLuint VBO_p, VBO_c, VAO;
@@ -75,6 +86,8 @@ int main(void) {
 
 	Shader defaultShader = Shader("default.vert", "default.frag");
 
+	glDisable(GL_POLYGON_SMOOTH);
+
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 
 	while (!glfwWindowShouldClose(win)) {
@@ -84,7 +97,7 @@ int main(void) {
 		
 		defaultShader.Activate();
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(win);
