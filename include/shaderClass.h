@@ -8,9 +8,13 @@
 #include <iostream>
 #include <cerrno>
 
-std::string get_file_contents(const char* filename);
+std::string get_file_contents(const GLchar* filename);
 
 class Shader {
+private:
+	std::string vertexCode;
+	std::string fragmentCode;
+
 public:
 	GLuint ID;
 	Shader(const char* vertexFile, const char* fragmentFile);
