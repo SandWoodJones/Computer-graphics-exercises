@@ -1,6 +1,8 @@
 #include "shaderClass.h"
 
 std::string get_file_contents(const GLchar* filename) {
+	if (!filename) return NULL;
+
 	std::string content;
 	std::ifstream fileStream(filename, std::ios::in);
 
@@ -21,6 +23,23 @@ std::string get_file_contents(const GLchar* filename) {
 }
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile) {
+	if (!fragmentFile) {
+		vertexCode = get_file_contents(vertexFile);
+		const char* vertexSource = vertexCode.c_str();
+
+		GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vs, 1, &vertexSource, NULL);
+		glCompileShader(vs);
+
+		ID = glCreateProgram();
+		glAttachShader(ID, vs);
+
+		glLinkProgram(ID);
+
+		glDeleteShader(vs);
+		return;
+	}
+
 	vertexCode = get_file_contents(vertexFile);
 	fragmentCode = get_file_contents(fragmentFile);
 
