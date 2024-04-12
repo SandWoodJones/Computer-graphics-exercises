@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2Triangulos", "2Triangulos\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pontos", "Pontos\Pontos.vcxproj", "{A05D46AC-0FC7-4DC4-8B0F-6A47E2B3947D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Casa2D", "Casa2D\Casa2D.vcxproj", "{5735B95D-E3DA-4C06-B39A-A0924B068B45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{A05D46AC-0FC7-4DC4-8B0F-6A47E2B3947D}.Release|x64.Build.0 = Release|x64
 		{A05D46AC-0FC7-4DC4-8B0F-6A47E2B3947D}.Release|x86.ActiveCfg = Release|Win32
 		{A05D46AC-0FC7-4DC4-8B0F-6A47E2B3947D}.Release|x86.Build.0 = Release|Win32
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Debug|x64.ActiveCfg = Debug|x64
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Debug|x64.Build.0 = Debug|x64
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Debug|x86.ActiveCfg = Debug|Win32
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Debug|x86.Build.0 = Debug|Win32
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Release|x64.ActiveCfg = Release|x64
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Release|x64.Build.0 = Release|x64
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Release|x86.ActiveCfg = Release|Win32
+		{5735B95D-E3DA-4C06-B39A-A0924B068B45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
