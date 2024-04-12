@@ -46,7 +46,12 @@ int main(void) {
 		20.0f,  0.0f,
 		20.0f, 20.0f,
 		 0.0f, 20.0f,
-		10.0f, 25.0f
+		10.0f, 25.0f,
+
+		4.0f, 0.0f,
+		4.0f, 12.5f,
+		8.0f, 0.0f,
+		8.0f, 12.5f
 	};
 
 	GLuint VBO, VAO;
@@ -74,7 +79,7 @@ int main(void) {
 
 		defaultShader.Activate();
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_POINTS, 0, 5);
+		glDrawArrays(GL_POINTS, 0, 10);
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(win);

@@ -40,19 +40,41 @@ int main(void) {
 		return -1;
 	}
 
+	Shader defaultShader = Shader("default.vert", "default.frag");
+	GLint fragBool = glGetUniformLocation(defaultShader.ID, "isWall");
+	if (fragBool == -1) {
+		std::cerr << "Uniform not found" << std::endl;
+		defaultShader.Delete();
+		glfwTerminate();
+		return -1;
+	}
+
 	// we divide these points by 30 in the vertex shader
 	GLfloat vertices[] = {
+		// house
 		 0.0f,  0.0f,
 		20.0f,  0.0f,
 		20.0f, 20.0f,
 		 0.0f, 20.0f,
-		10.0f, 25.0f
+		10.0f, 25.0f,
+		
+		// door
+		 4.0f,  0.0f,
+		 4.0f, 12.5f,
+		 8.0f,  0.0f,
+		 8.0f, 12.5f
 	};
 
 	GLuint vert_indices[] = {
 		// house
 		0, 1, 2, // first triangle
-		0, 2, 3 // second triangle
+		0, 2, 3, // second triangle
+		
+		2, 3, 4, // roof
+
+		// door
+		5, 6, 7,
+		6, 7, 8
 	};
 
 	GLuint VAO, VBO, IBO;
@@ -73,8 +95,6 @@ int main(void) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vert_indices), vert_indices, GL_STATIC_DRAW);
 
-	Shader defaultShader = Shader("default.vert", "default.frag");
-
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 	
 	while (!glfwWindowShouldClose(win)) {
@@ -84,8 +104,11 @@ int main(void) {
 
 		defaultShader.Activate();
 
+		glUniform1i(fragBool, 0);
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glUniform1i(fragBool, 1);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void *)(9 * sizeof(GLuint)));
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(win);
