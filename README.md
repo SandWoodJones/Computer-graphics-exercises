@@ -5,5 +5,5 @@
 - [x] sinc(x)
 - [x] Círculo
 - [x] Pontos aleatorios
-- [x] Linhas aleatorias
-- [x] Triângulos aleatorios
+- [ ] Linhas aleatorias
+- [ ] Triângulos aleatorios
