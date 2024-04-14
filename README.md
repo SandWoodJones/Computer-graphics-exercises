@@ -4,6 +4,6 @@
 - [x] Casa 2D
 - [x] sinc(x)
 - [x] Círculo
-- [ ] Pontos aleatorios
-- [ ] Linhas aleatorias
-- [ ] Triângulos aleatorios
+- [x] Pontos aleatorios
+- [x] Linhas aleatorias
+- [x] Triângulos aleatorios
