@@ -1,3 +1,7 @@
+/*
+* Ex 7: Randomly generate a number of line segments inside a circle.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

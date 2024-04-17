@@ -1,3 +1,7 @@
+/*
+* Ex 1: Write a program for drawing 2 triangles with different colors (1 red and 1 green)
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

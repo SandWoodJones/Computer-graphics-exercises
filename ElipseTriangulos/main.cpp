@@ -1,3 +1,7 @@
+/*
+* Ex 8: Randomly generate a number of triangles inside a circle.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

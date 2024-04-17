@@ -24,7 +24,7 @@
     <ProjectGuid>{a40cfbed-8fa9-4f85-b10e-6613caac0e73}</ProjectGuid>
     <RootNamespace>CirculoPonto</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CirculoPontos</ProjectName>
+    <ProjectName>CirclePoints</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

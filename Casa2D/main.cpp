@@ -1,3 +1,8 @@
+/*
+* Ex 3: Alter the previous exercise to draw a 2D house. The house consists of a square (front wall composded of 2 triangles) and a triangle (roof).
+*		The first 4 given points define the square, while the last 3 define the triangle. Use the GL_TRIANGLES primitive and construct 2 windows and a doof for the house.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

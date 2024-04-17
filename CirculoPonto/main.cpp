@@ -1,3 +1,7 @@
+/*
+* Ex 6: Randomly generate a number of points inside a circle.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

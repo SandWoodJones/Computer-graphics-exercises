@@ -24,6 +24,7 @@
     <ProjectGuid>{63241767-9715-4b76-9693-1211f1a8eb2d}</ProjectGuid>
     <RootNamespace>ElipseTriangulos</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CircleTriangles</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

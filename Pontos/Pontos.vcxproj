@@ -24,6 +24,7 @@
     <ProjectGuid>{a05d46ac-0fc7-4dc4-8b0f-6a47e2b3947d}</ProjectGuid>
     <RootNamespace>Pontos</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Points</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -1,3 +1,7 @@
+/*
+* Ex 2: Write a program for drawing the following points: (0, 0), (20, 0), (20, 20), (0, 20) and (10, 25). Use the GL_POINTS primitive and change the point size from 1 to 10.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

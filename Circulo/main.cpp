@@ -1,3 +1,9 @@
+/*
+* Ex 5: Write a program for drawing a circle centered at (Cx, Cy) with a given radius R, where the points are given by the equations:
+*		x = Cx + R * cos(theta)
+*		y = Cy + R * sin(theta)
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC

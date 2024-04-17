@@ -1,3 +1,8 @@
+﻿/*
+* Ex 4: Write a program for plotting the sinc() function. This function is given as: sinc(x) = sin(x) / x, where x ∈ [-10, 10].
+*		Use the GL_LINE_STRIP primitive, a step size of 0.25 and remember that sinc(0) = 1.
+*/
+
 #include <iostream>
 
 #define GLEW_STATIC
@@ -62,7 +67,7 @@ int main(void) {
 	Shader defaultShader = Shader("default.vert", NULL);
 
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
-	glPointSize(3);
+	glLineWidth(3);
 
 	while (!glfwWindowShouldClose(win)) {
 		glfwPollEvents();
