@@ -7,6 +7,8 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtc/reciprocal.hpp>
 
 #include "shaderClass.h"
 
@@ -14,7 +16,8 @@ const int   gW_Width = 640;
 const int   gW_Height = 360;
 const char* gW_Title = "Folium of Descartes";
 
-std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step);
+// std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step);
+std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat a, GLfloat step);
 
 int main(void) {
 	// init glfw
@@ -43,12 +46,18 @@ int main(void) {
 		return -1;
 	}
 
-	GLfloat tmin = -10.0f;
-	GLfloat tmax = 10.0f;
 	GLfloat a = 1.0f;
-	GLfloat step = 0.01f;
+	GLfloat step = 0.1f;
 
-	std::vector<GLfloat>* vertex_data = generateVerts(tmin, tmax, a, step);
+	// parametric version
+	//GLfloat tmin = -10.0f;
+	//GLfloat tmax = 10.0f;
+	//std::vector<GLfloat>* vertex_data = generateVerts(tmin, tmax, a, step);
+
+	// polar version
+	GLfloat factor = 32.0f;
+	std::vector<GLfloat>* vertex_data = generateVerts(factor, a, step);
+	
 	int VN = vertex_data->size() / 2;
 
 	GLuint VBO, VAO;
@@ -86,6 +95,7 @@ int main(void) {
 	return 0;
 }
 
+// parametric
 std::pair<GLfloat, GLfloat> folium(GLfloat a, GLfloat t) {
 	if (t == -1) return std::make_pair(-1.0f, 0.3);
 
@@ -95,6 +105,13 @@ std::pair<GLfloat, GLfloat> folium(GLfloat a, GLfloat t) {
 	return std::make_pair(x, y);
 }
 
+// polar
+GLfloat folium_p(GLfloat theta, GLfloat a) {
+	return (3 * a * glm::sec(theta) * glm::tan(theta)) /
+		(1 + powf(tan(theta), 3));
+}
+
+// parametric
 std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step) {
 	GLfloat length = tmax - tmin;
 	int N = ((int)length / step) + 1;
@@ -110,6 +127,25 @@ std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLflo
 		(*array)[(i * 2) + 1] = point.second;
 
 		t += step;
+	}
+
+	return array;
+}
+
+// polar
+std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat a, GLfloat step) {
+	int N = (int)(factor * glm::pi<float>()) / step;
+
+	std::vector<GLfloat>* array = new std::vector<GLfloat>(N * 2);
+
+	float theta = 0;
+	for (int i = 0; i < N; i++) {
+		GLfloat r = folium_p(theta, a);
+
+		(*array)[(i * 2)] = r * glm::cos(theta);
+		(*array)[(i * 2) + 1] = r * glm::sin(theta);
+
+		theta += step;
 	}
 
 	return array;
