@@ -1,8 +1,3 @@
-﻿/*
-* Ex 4: Write a program for plotting the sinc() function. This function is given as: sinc(x) = sin(x) / x, where x ∈ [-10, 10].
-*		Use the GL_LINE_STRIP primitive, a step size of 0.25 and remember that sinc(0) = 1.
-*/
-
 #include <iostream>
 #include <vector>
 
@@ -13,13 +8,13 @@
 
 #include <glm/glm.hpp>
 
-#include <shaderClass.h>
+#include "shaderClass.h"
 
 const int   gW_Width = 640;
 const int   gW_Height = 360;
-const char* gW_Title = "sinc";
+const char* gW_Title = "Folium of Descartes";
 
-std::vector<GLfloat>* generateVerts(GLfloat xmin, GLfloat xmax, GLfloat step);
+std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step);
 
 int main(void) {
 	// init glfw
@@ -48,13 +43,13 @@ int main(void) {
 		return -1;
 	}
 
-	GLfloat xmin = -10.0f;
-	GLfloat xmax = 10.0f;
-	GLfloat step = 0.25f;
+	GLfloat tmin = -10.0f;
+	GLfloat tmax = 10.0f;
+	GLfloat a = 1.0f;
+	GLfloat step = 0.01f;
 
-	// populate array with sinc values
-	std::vector<GLfloat>* vertex_data = generateVerts(xmin, xmax, step);
-	int VN = vertex_data->size() / 2; // number of vertices
+	std::vector<GLfloat>* vertex_data = generateVerts(tmin, tmax, a, step);
+	int VN = vertex_data->size() / 2;
 
 	GLuint VBO, VAO;
 
@@ -72,7 +67,6 @@ int main(void) {
 	Shader defaultShader = Shader("default.vert", NULL);
 
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
-	glLineWidth(3);
 
 	while (!glfwWindowShouldClose(win)) {
 		glfwPollEvents();
@@ -87,32 +81,35 @@ int main(void) {
 		glfwSwapBuffers(win);
 	}
 
-	defaultShader.Delete();
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
 	glfwTerminate();
 
 	return 0;
 }
 
-GLfloat sinc(GLfloat x) {
-	if (x == 0.0f) return 1.0f;
-	return glm::sin(x) / x;
+std::pair<GLfloat, GLfloat> folium(GLfloat a, GLfloat t) {
+	if (t == -1) return std::make_pair(-1.0f, 0.3);
+
+	GLfloat x = (3 * a * t) / (1 + powf(t, 3));
+	GLfloat y = (3 * a * powf(t, 2)) / (1 + powf(t, 3));
+
+	return std::make_pair(x, y);
 }
 
-std::vector<GLfloat>* generateVerts(GLfloat xmin, GLfloat xmax, GLfloat step) {
-	GLfloat length = xmax - xmin;
+std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step) {
+	GLfloat length = tmax - tmin;
 	int N = ((int)length / step) + 1;
 
 	std::vector<GLfloat>* array = new std::vector<GLfloat>(N * 2);
 
-	GLfloat x = xmin;
+	GLfloat t = tmin;
 
 	for (int i = 0; i < N; i++) {
-		(*array)[(i * 2)] = x;
-		(*array)[(i * 2) + 1] = sinc(x);
+		std::pair<GLfloat, GLfloat> point = folium(a, t);
 
-		x += step;
+		(*array)[(i * 2)] = point.first;
+		(*array)[(i * 2) + 1] = point.second;
+
+		t += step;
 	}
 
 	return array;

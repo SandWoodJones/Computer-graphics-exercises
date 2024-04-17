@@ -49,7 +49,7 @@ int main(void) {
 	GLfloat factor = 32.0f;
 	GLfloat step =   0.05f;
 
-	// populate array with sinc values
+	// populate array with function values
 	std::vector<GLfloat> *vertex_data = generateVerts(factor, step);
 	int VN = vertex_data->size() / 2; // number of vertices
 
@@ -103,13 +103,11 @@ GLfloat butterfly(GLfloat theta) {
 std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat step) {
 	int N = (int) (factor * glm::pi<float>()) / step;
 
-	std::cout << N << std::endl;
-
 	std::vector<GLfloat> *array = new std::vector<GLfloat>(N * 2);
 
 	float theta = 0;
 	for (int i = 0; i < N; i++) {
-		float r = butterfly(theta);
+		GLfloat r = butterfly(theta);
 
 		// convert from polar to cartesian
 		(*array)[(i * 2)]     = r * glm::cos(theta);
