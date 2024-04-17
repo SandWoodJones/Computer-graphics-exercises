@@ -1,4 +1,4 @@
-// https://en.wikipedia.org/wiki/Folium_of_Descartes
+// https://en.wikipedia.org/wiki/Archimedean_spiral
 
 #include <iostream>
 #include <vector>
@@ -10,16 +10,14 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
-#include <glm/gtc/reciprocal.hpp>
 
 #include "shaderClass.h"
 
 const int   gW_Width = 640;
 const int   gW_Height = 360;
-const char* gW_Title = "Folium of Descartes";
+const char* gW_Title = "Archimedean Spiral";
 
-std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step); // parametric
-std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat a, GLfloat step); // polar
+std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat b, GLfloat step);
 
 int main(void) {
 	// init glfw
@@ -48,18 +46,11 @@ int main(void) {
 		return -1;
 	}
 
-	GLfloat a = 1.0f;
+	GLfloat factor = 16.0f;
+	GLfloat b = 1.0f;
 	GLfloat step = 0.1f;
 
-	// parametric version
-	//GLfloat tmin = -10.0f;
-	//GLfloat tmax = 10.0f;
-	//std::vector<GLfloat>* vertex_data = generateVerts(tmin, tmax, a, step);
-
-	// polar version
-	GLfloat factor = 32.0f;
-	std::vector<GLfloat>* vertex_data = generateVerts(factor, a, step);
-	
+	std::vector<GLfloat>* vertex_data = generateVerts(factor, b, step);
 	int VN = vertex_data->size() / 2;
 
 	GLuint VBO, VAO;
@@ -97,52 +88,18 @@ int main(void) {
 	return 0;
 }
 
-// parametric
-std::pair<GLfloat, GLfloat> folium(GLfloat a, GLfloat t) {
-	if (t == -1) return std::make_pair(-1.0f, 0.3);
-
-	GLfloat x = (3 * a * t) / (1 + powf(t, 3));
-	GLfloat y = (3 * a * powf(t, 2)) / (1 + powf(t, 3));
-
-	return std::make_pair(x, y);
+GLfloat spiral(GLfloat theta, GLfloat b) {
+	return b * theta;
 }
 
-// polar
-GLfloat folium_p(GLfloat theta, GLfloat a) {
-	return (3 * a * glm::sec(theta) * glm::tan(theta)) /
-		(1 + powf(tan(theta), 3));
-}
-
-// parametric
-std::vector<GLfloat>* generateVerts(GLfloat tmin, GLfloat tmax, GLfloat a, GLfloat step) {
-	GLfloat length = tmax - tmin;
-	int N = ((int)length / step) + 1;
-
-	std::vector<GLfloat>* array = new std::vector<GLfloat>(N * 2);
-
-	GLfloat t = tmin;
-
-	for (int i = 0; i < N; i++) {
-		std::pair<GLfloat, GLfloat> point = folium(a, t);
-
-		(*array)[(i * 2)] = point.first;
-		(*array)[(i * 2) + 1] = point.second;
-
-		t += step;
-	}
-
-	return array;
-}
-
-// polar
-std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat a, GLfloat step) {
+std::vector<GLfloat>* generateVerts(GLfloat factor, GLfloat b, GLfloat step) {
 	int N = (int)(factor * glm::pi<float>()) / step;
 
 	std::vector<GLfloat>* array = new std::vector<GLfloat>(N * 2);
 
 	float theta = 0;
 	for (int i = 0; i < N; i++) {
-		GLfloat r = folium_p(theta, a);
+		GLfloat r = spiral(theta, b);
 
 		(*array)[(i * 2)] = r * glm::cos(theta);
 		(*array)[(i * 2) + 1] = r * glm::sin(theta);
