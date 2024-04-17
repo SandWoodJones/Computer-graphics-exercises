@@ -4,6 +4,7 @@
 */
 
 #include <iostream>
+#include <vector>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -16,9 +17,9 @@
 
 const int   gW_Width = 640;
 const int   gW_Height = 360;
-const char* gW_Title = "sinc function";
+const char* gW_Title = "Butterfly curve";
 
-void generateVerts(GLfloat arr[]);
+std::vector<GLfloat>* generateVerts(GLfloat xmin, GLfloat xmax, GLfloat step);
 
 int main(void) {
 	// init glfw
@@ -47,15 +48,19 @@ int main(void) {
 		return -1;
 	}
 
+	GLfloat xmin = -10.0f;
+	GLfloat xmax = 10.0f;
+	GLfloat step = 0.25f;
+
 	// populate array with sinc values
-	GLfloat verts[162] = { 0 };
-	generateVerts(verts);
+	std::vector<GLfloat>* vertex_data = generateVerts(xmin, xmax, step);
+	int VN = vertex_data->size() / 2; // number of vertices
 
 	GLuint VBO, VAO;
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertex_data->size() * sizeof(GLfloat), vertex_data->data(), GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -76,7 +81,7 @@ int main(void) {
 
 		defaultShader.Activate();
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_LINE_STRIP, 0, 81);
+		glDrawArrays(GL_LINE_STRIP, 0, VN);
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(win);
@@ -90,15 +95,25 @@ int main(void) {
 	return 0;
 }
 
-void generateVerts(GLfloat arr[]) {
-	GLuint i = 0;
-	for (GLfloat x = -10.0f; x <= 10.0f; x += 0.25f) {
-		arr[i] = x;
+GLfloat sinc(GLfloat x) {
+	if (x == 0.0f) return 1.0f;
+	return glm::sin(x) / x;
+}
 
-		GLfloat result = glm::sin(x) / x;
-		if (isnan(result)) result = 1.0f; // replaces result with 1 when x = 0 to avoid problems
-		arr[i + 1] = result;
+std::vector<GLfloat>* generateVerts(GLfloat xmin, GLfloat xmax, GLfloat step) {
+	GLfloat length = xmax - xmin;
+	int N = ((int)length / step) + 1;
 
-		i += 2;
+	std::vector<GLfloat>* array = new std::vector<GLfloat>(N * 2);
+
+	GLfloat x = xmin;
+
+	for (int i = 0; i < N; i++) {
+		(*array)[(i * 2)] = x;
+		(*array)[(i * 2) + 1] = sinc(x);
+
+		x += step;
 	}
+
+	return array;
 }
