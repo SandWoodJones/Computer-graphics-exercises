@@ -22,6 +22,12 @@ std::string get_file_contents(const GLchar* filename) {
 	return content;
 }
 
+Shader::Shader() {
+	vertexCode = "";
+	fragmentCode = "";
+	ID = 0;
+}
+
 Shader::Shader(const char* vertexFile, const char* fragmentFile) {
 	if (!fragmentFile) {
 		vertexCode = get_file_contents(vertexFile);
@@ -64,9 +70,17 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile) {
 }
 
 void Shader::Activate() {
+	if (ID == 0) {
+		std::cerr << "Tried to activate invalid shader" << std::endl;
+		return;
+	}
 	glUseProgram(ID);
 }
 
 void Shader::Delete() {
+	if (ID == 0) {
+		std::cerr << "Tried to delete invalid shader" << std::endl;
+		return;
+	}
 	glDeleteProgram(ID);
 }
