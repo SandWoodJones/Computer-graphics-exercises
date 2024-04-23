@@ -1,6 +1,6 @@
 # Lista 2
 - [ ] Translações
-- [ ] Teclado
+- [x] Teclado
 - [ ] Cópias
 - [ ] Sol
 - [ ] Separar
